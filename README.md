@@ -1,4 +1,4 @@
 password-cracker
 ================
 
-Password cracker using dictionary generator
+Password cracker using dictionary generator.
