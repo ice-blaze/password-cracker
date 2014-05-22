@@ -16,7 +16,8 @@ def print_header():
 	print('\tEtienne Frank, Dany juppile')
 	print('-------------------------')
 	# print("Cet application génère des mots de passe et les stocks dans des fichiers (repertoire ./pass)")
-	print("This application generate passwords and store it in files (./pass directory)\n\n")
+	print("This application generate passwords and store it in files (./pass directory)")
+	print("Data are split in 100 mega octet files\n\n")
 
 
 def is_int(val):
@@ -32,22 +33,28 @@ def zero_fill(number):
 
 
 def word(pass_dir, alphabet, start, deep_start, deep_end, deep_actual=0, file_number=1):
-	# file_path = pass_dir+zero_fill(file_number)+'.txt'
-	# file = open(file_path, 'a')
+	isFile = False
+	if "-f" in sys.argv:
+		isFile = True
+		file_path = pass_dir+zero_fill(file_number)+'.txt'
+		file = open(file_path, 'a')
 
 	if deep_actual >= deep_start:
 		for char in alphabet:
-			# file.write(start+char+'\n')
-			print(start+char)
+			if isFile is False:
+				print(start+char)
+			else:
+				file.write(start+char+'\n')
 
-			# if the file is too big, generate a new file
-			# if os.stat(file_path).st_size > 100000000:
-				# file_number += 1
-				# file.close()
-				# file_path = pass_dir+zero_fill(file_number)+'.txt'
-				# file = open(file_path, 'a')
+				# if the file is too big, generate a new file
+				if os.stat(file_path).st_size > 100000000:
+					file_number += 1
+					file.close()
+					file_path = pass_dir+zero_fill(file_number)+'.txt'
+					file = open(file_path, 'a')
 
-	# file.close()
+	if isFile is True:
+		file.close()
 
 	deep_actual += 1
 
@@ -72,20 +79,36 @@ if __name__ == "__main__":
 			shutil.rmtree(password_dir)
 	os.makedirs(password_dir)
 
-	print_header()
-
 	alphabet = []
 
+	if "-h" in sys.argv or "--help" in sys.argv:
+		print("\nArguments list:")
+		print("    -l for lower alphabet")
+		print("    -u for upper alphabet")
+		print("    -n for numerical")
+		print("    -s for special characters")
+		print("    -f save in files\n")
+		print("then add two numbers for min and max size")
+		print("example numerical password, length 2 to 3 : "+str(sys.argv[0])+" -n 2 3")
+		
+		print_header()
+		exit()
+	
 	for arg in sys.argv:
 		if arg == "-l":
 			alphabet += list(string.ascii_lowercase)
 		if arg == "-u":
 			alphabet += list(string.ascii_uppercase)
-		if arg == "-d":
+		if arg == "-n":
 			alphabet += list(string.digits)
 		if arg == "-s":
 			alphabet += special
 
+	# check if there is some arguments
+	if len(sys.argv) <= 1:
+		print("There is no arguments... try -h or --help")
+		exit()
+	
 	if sys.argv[-2].isdigit():
 		minChars = int(sys.argv[-2])-1
 	else:
@@ -127,6 +150,7 @@ if __name__ == "__main__":
 
 	word(password_dir, alphabet, '', minChars, maxChars)
 
-	print("program finished")
+	if "-v" in sys.argv:
+		print("program finished")
 
 
