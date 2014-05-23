@@ -120,33 +120,6 @@ if __name__ == "__main__":
 
 	if minChars == -1 or maxChars == -1 or maxChars < minChars:
 		raise NameError("passwords size are wrong")
-	# isLower = input('Want alphabet lowercase ? (y/n)\n').lower()
-	# if isLower == 'y':
-	# 	alphabet += list(string.ascii_lowercase)
-	#
-	# isUpper = input('Want alphabet upper ? (y/n)\n').lower()
-	# if isUpper == 'y':
-	# 	alphabet += list(string.ascii_uppercase)
-	#
-	# isDigit = input('Want digit chars ? (y/n)\n').lower()
-	# if isDigit == 'y':
-	# 	alphabet += list(string.digits)
-	#
-	# isSpecial = input('Want special chars ? (y/n)\n').lower()
-	# if isSpecial == 'y':
-	# 	alphabet += special
-
-	# isMin = input('Minimum password size ? (insert an integer please)\n')
-	# if is_int(isMin):
-	# 	minChars = int(isMin)
-	# else:
-	# 	print("Input wasn't an integer")
-	#
-	# isMax = input('Maximum password size ? (insert an integer please)\n')
-	# if is_int(isMax):
-	# 	maxChars = int(isMax)
-	# else:
-	# 	print("Input wasn't an integer")
 
 	word(password_dir, alphabet, '', minChars, maxChars)
 
